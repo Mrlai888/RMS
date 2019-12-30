@@ -1,0 +1,20 @@
+.register_page{
+  width: 300px; 
+  max-height: 300px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top:0;
+  right: 0;
+  margin: auto;
+
+ .register-form {
+    max-width: 300px;
+  }
+ .register-form-forgot {
+    float: right;
+  }
+ .register-form-button {
+    width: 100%;
+  }
+}
