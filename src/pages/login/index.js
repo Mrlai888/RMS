@@ -6,6 +6,8 @@ import {signIn} from '../../api/userApi'
 
 import './login.scss'
 
+import CanvasParticle from './canvas-particle'
+
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 
 class Login extends React.Component{
@@ -34,7 +36,7 @@ class Login extends React.Component{
         if(data.code === 0){
           handleLogin(data.data)
 
-          message.success('登录成功',0.5,()=>{
+          message.success('登录成功',1,()=>{
             let redirect = location.state ? location.state.redirect : '/'
               history.replace(redirect)
           })
@@ -54,6 +56,7 @@ class Login extends React.Component{
     const { getFieldDecorator } = this.props.form;
     const {loading} = this.state
     return (
+      <div id="myDiv">
       <div className="login_page">
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
@@ -89,7 +92,7 @@ class Login extends React.Component{
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
-          })(<Checkbox>记住我</Checkbox>)}
+          })(<Checkbox style={{color:"#1890ff"}}>记住我</Checkbox>)}
           <a className="login-form-forgot" href="">
             忘记密码
           </a>
@@ -104,12 +107,34 @@ class Login extends React.Component{
         </Form.Item>
       </Form>
       </div>
+      </div>
     );
   }
   toRsg=()=>{
     console.log(this.props)
     // 登录注册
     this.props.history.push('/register')
+  }
+
+  componentDidMount(){
+    window.onload = function() {
+      //配置
+      var config = {
+          vx: 4,	//小球x轴速度,正为右，负为左
+          vy: 4,	//小球y轴速度
+          height: 2,	//小球高宽，其实为正方形，所以不宜太大
+          width: 2,
+          count: 200,		//点个数
+          color: "121, 162, 185", 	//点颜色
+          stroke: "130,255,255", 		//线条颜色
+          dist: 6000, 	//点吸附距离
+          e_dist: 20000, 	//鼠标吸附加速距离
+          max_conn: 10 	//点到点最大连接数
+      }
+
+      //调用
+      CanvasParticle(config);
+  }
   }
 
 }

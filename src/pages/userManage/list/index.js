@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 
+import CollectionsPage from './edit'
 
-import { Table, Divider, Button } from 'antd';
+import AddItem from './add'
+
+import { Table, Divider, Button ,Modal} from 'antd';
+
+
 import { findUser, delUser} from '../../../api/userApi';
 
 
-
+import './list.scss'
 
 
 const UserManageList = () => {
@@ -44,15 +49,12 @@ const UserManageList = () => {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
-        <span>
-          <Button 
-          type="primary" 
-          icon="edit"
-          // onClick={()=>{
-  
-          // }}
-          >编辑</Button>
+        <div style={{display:'flex'}}>
+          <div className="edit_page">
+          <CollectionsPage _id={record}  fn={(data)=>{return(setPage(data))}}></CollectionsPage>
+          </div>
           <Divider type="vertical" />
+          <div className="delPage">
           <Button 
           type="danger" 
           icon="delete"
@@ -62,7 +64,9 @@ const UserManageList = () => {
            )
           }}
           >删除</Button>
-        </span>
+          </div>
+         
+        </div>
       ),
     },
   ]
@@ -84,18 +88,36 @@ const UserManageList = () => {
 
 // 删除
   const handleDel=(id)=> {
-    delUser(id)
-    console.log(id)
-    const newUserList = [...userList]
-    let index = newUserList.findIndex(item=>{
-      return item.id === id
-    })
-    newUserList.splice(index,1)
-    setUserList(newUserList)
+    const { confirm } = Modal
+
+    confirm({
+      title: '确定要删除选项吗?',
+      content: '点击1秒后删除',
+      onOk() {
+        return new Promise((resolve, reject) => {
+          delUser(id)
+          console.log(id)
+          const newUserList = [...userList]
+          let index = newUserList.findIndex(item=>{
+            return item.id === id
+          })
+          newUserList.splice(index,1)
+          setUserList(newUserList)
+          setTimeout(Math.random() > 0.4 ? resolve : reject, 700);
+        }).catch(() => console.log('Oops errors!'));
+      },
+      onCancel() {
+      },
+    });
   }
 
 
+ const setPage=(data)=> {
+   console.log(data)
+    setUserList(data)
+  }
 
+ 
   /**
     * 获取用户列表
     */
@@ -116,11 +138,19 @@ const UserManageList = () => {
     })
 
   }
+
+  const addItems=(data)=>{
+    console.log(data)
+    setUserList(data)
+
+  }
+
   return (
-    <div className="page_user_list">
+    <div className="page_List_page">
       <h1>
         用户列表
        </h1>
+
       <Table
         rowKey='id'
         columns={columns}
@@ -133,9 +163,14 @@ const UserManageList = () => {
         }}>
         >
       </Table>
+    <AddItem add={(data)=>{return(addItems(data))}}>
+      新增用户
+    </AddItem>
 
     </div>
+    
   )
+
 }
 
 export default UserManageList

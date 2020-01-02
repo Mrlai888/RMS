@@ -8,6 +8,8 @@ import './register.scss'
 
 import { Form, Icon, Input, Button, Checkbox, message, Radio } from 'antd';
 
+import CanvasParticle from './canvas-particle'
+
 class Register extends React.Component {
 
   state = {
@@ -52,6 +54,7 @@ class Register extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { loading } = this.state
     return (
+      <div id="myDiv">
       <div className="register_page">
         <Form onSubmit={this.handleSubmit} className="register-form">
           <Form.Item>
@@ -92,8 +95,8 @@ class Register extends React.Component {
               initialValue:this.state.gender
             })(
               <Radio.Group >
-              <Radio value={1}>男</Radio>
-              <Radio value={2}>女</Radio>
+              <Radio value={1} style={{color:"#1890ff"}}>男</Radio>
+              <Radio value={2} style={{color:"#1890ff"}}>女</Radio>
             </Radio.Group>
             )}
 
@@ -109,9 +112,29 @@ class Register extends React.Component {
           </Form.Item>
         </Form>
       </div>
+      </div>
     );
   }
+  componentDidMount(){
+    window.onload = function() {
+      //配置
+      var config = {
+          vx: 4,	//小球x轴速度,正为右，负为左
+          vy: 4,	//小球y轴速度
+          height: 2,	//小球高宽，其实为正方形，所以不宜太大
+          width: 2,
+          count: 200,		//点个数
+          color: "121, 162, 185", 	//点颜色
+          stroke: "130,255,255", 		//线条颜色
+          dist: 6000, 	//点吸附距离
+          e_dist: 20000, 	//鼠标吸附加速距离
+          max_conn: 10 	//点到点最大连接数
+      }
 
+      //调用
+      CanvasParticle(config);
+  }
+  }
 
 }
 

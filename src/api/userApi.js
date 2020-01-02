@@ -32,7 +32,29 @@ export const findUser = (params)=>{
   })
 }
 
-
+// 删除
 export const delUser=(params)=>{
   return Axios.delete(`/users/${params}`)
 }
+
+// 修改 patch
+export const changeUsr=(id,data)=>{
+  return Axios.patch(`/users/${id}`,data)
+}
+
+// 新增 
+
+export const addUser =(data)=>{
+  return Axios.post('/users/',data)
+}
+
+
+// axios({
+  //     url: 'http://localhost:3000/students',
+  //     method: 'post',
+  //     data: {
+  //       name: userName
+  //     }
+  //   }).then(res => {
+  //     console.log(res)
+  //   })
