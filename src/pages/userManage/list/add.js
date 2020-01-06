@@ -110,7 +110,7 @@ class CollectionsPage extends React.Component {
   render() {
     return (
       <div>
-        <Button type="primary" onClick={this.showModal} icon="plus" block>
+        <Button type="primary" onClick={this.showModal} icon="plus" block size="large">
         新增用户
         </Button>
         <CollectionCreateForm

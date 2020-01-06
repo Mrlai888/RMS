@@ -9,9 +9,21 @@
     width:330px;
     height:140px
   }
-  // .addItem{
-    
-  // }
+  .title_page{
+    display: flex;
+    // flex-direction: column;
+    justify-content: space-around;
+
+    .search_box{
+      padding-bottom: 20px;
+      width: 35%;
+    }
+    .add_box{
+      // padding-top: 16px;
+      width:20%;
+    }
+  }
+ 
 }
 
 // .ant-modal-wrap {

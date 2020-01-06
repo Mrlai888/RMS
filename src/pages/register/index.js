@@ -32,8 +32,8 @@ class Register extends React.Component {
 
       signUp(values).then(response => {
         const { data } = response
-        console.log((data.data))
-        console.log(this.props)
+        // console.log((data.data))
+        // console.log(this.props)
         if (data.code === 0) {
           message.success('注册成功', 1, () => {
             this.props.history.push(('/login'))
@@ -54,7 +54,7 @@ class Register extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { loading } = this.state
     return (
-      <div id="myDiv">
+      <div className="myDiv">
       <div className="register_page">
         <Form onSubmit={this.handleSubmit} className="register-form">
           <Form.Item>
@@ -99,7 +99,11 @@ class Register extends React.Component {
               <Radio value={2} style={{color:"#1890ff"}}>女</Radio>
             </Radio.Group>
             )}
-
+          <span style={{color:"rgb(24, 144, 255)",  marginLeft:'140px'}} onClick={()=>{
+            return(
+                this.props.history.push('/login')
+            )
+          }}>登录</span>
           </Form.Item>
           <Form.Item>
             <Button type="primary"
@@ -116,7 +120,9 @@ class Register extends React.Component {
     );
   }
   componentDidMount(){
+    this.forceUpdate();
     window.onload = function() {
+      var time
       //配置
       var config = {
           vx: 4,	//小球x轴速度,正为右，负为左
@@ -128,7 +134,8 @@ class Register extends React.Component {
           stroke: "130,255,255", 		//线条颜色
           dist: 6000, 	//点吸附距离
           e_dist: 20000, 	//鼠标吸附加速距离
-          max_conn: 10 	//点到点最大连接数
+          max_conn: 10,	//点到点最大连接数
+          time: new Date().getTime()
       }
 
       //调用

@@ -2,6 +2,10 @@ import Axios from 'axios'
 Axios.defaults.baseURL = 'http://localhost:9090'
 
 
+// Axios.defaults.baseURL = 'http://212.64.68.222:9090'
+
+
+
 /**
  * 注册用户
  * @param {object} data

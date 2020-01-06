@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react'
-
+// Router 在入口文件使用一次就够了
 import { connect } from 'react-redux'
 
 import Auth from '../pages/userManage/auth'
-
 import List from '../pages/userManage/list'
-
-// Router 在入口文件使用一次就够了
+import Set from '../pages/set/index'
 import Welcome from '../pages/welcome'
+import Four from '../pages/other/404'
+import Canvas from '../pages/other/canvas '
 
 import { Route, Switch } from 'react-router-dom'
 
@@ -37,10 +37,14 @@ class BaseSidebar extends React.Component {
       <Fragment>
         <Layout style={{ minHeight: '100vh' }} className='layout_page'>
           <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-            <div className="logo" />
-            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-              <Menu.Item key="1" onClick={() => { this.handleMenuLink('/') }}>
-                <Icon type="pie-chart" />
+            <div className="logo" title="后台管理系统" >
+            <Icon type="sketch" style={{fontSize:"22px",color:"blue",fontWeight:'bold'}} />
+              <span>后台管理系统</span>
+              </div>
+            {/* //返回一个数组[''] */}
+            <Menu theme="dark" defaultSelectedKeys={this.getKey()} mode="inline">
+              <Menu.Item key="/" onClick={() => { this.handleMenuLink('/') }}>
+                <Icon type="home" />
                 <span>welcome</span>
               </Menu.Item>
               <SubMenu
@@ -52,9 +56,27 @@ class BaseSidebar extends React.Component {
                   </span>
                 }
               >
-                <Menu.Item key="3" onClick={this.handleMenuLink.bind(this, '/user-manage/List')}>用户列表</Menu.Item>
-                <Menu.Item key="4" onClick={this.handleMenuLink.bind(this, '/user-manage/auth')}>权限设置</Menu.Item>
+                <Menu.Item key='/user-manage/List' onClick={this.handleMenuLink.bind(this, '/user-manage/List')}>用户列表</Menu.Item>
+                <Menu.Item key='/user-manage/auth' onClick={this.handleMenuLink.bind(this, '/user-manage/auth')}>权限设置</Menu.Item>
               </SubMenu>
+
+              <SubMenu
+                key="sub3"
+                title={
+                  <span>
+                    <Icon type="team" />
+                    <span>其他</span>
+                  </span>
+                }
+              >
+                <Menu.Item key='/other/four' onClick={this.handleMenuLink.bind(this, '/other/four')}>404</Menu.Item>
+                <Menu.Item key='/other/canvas' onClick={this.handleMenuLink.bind(this, '/other/canvas')}>Canvas</Menu.Item>
+              </SubMenu>
+
+              <Menu.Item key='/set' onClick={this.handleMenuLink.bind(this, '/set')}>
+                <Icon type="setting"></Icon>
+                <span>设置</span>
+              </Menu.Item>
             </Menu>
           </Sider>
           <Layout>
@@ -74,8 +96,8 @@ class BaseSidebar extends React.Component {
                   }
                 >
                   <Menu.ItemGroup style={{width:'120px'}}>
-                    <Menu.Item key="setting:1">个人中心</Menu.Item>
-                    <Menu.Item key="setting:2">首页</Menu.Item>
+                  <Menu.Item key="setting:2" onClick={()=>{this.handleToTarget('/')}}>首页</Menu.Item>
+                    <Menu.Item key="setting:1" onClick={()=>{this.handleToTarget('/user-manage/List')}}>我的用户</Menu.Item>
                     <Menu.Item key="setting:3">
                       <a href="https://github.com/Mrlai888/RMS.git" target="_blank"></a>
                       项目地址</Menu.Item>
@@ -98,6 +120,9 @@ class BaseSidebar extends React.Component {
               <Switch>
                 <Route path="/user-manage/list" component={List}></Route>
                 <Route path="/user-manage/auth" component={Auth}></Route>
+                <Route path='/other/four' component={Four}></Route>
+                <Route path='/other/canvas' component={Canvas}></Route>
+                <Route path='/set' component={Set}></Route>
                 <Route path="/" component={Welcome}></Route>
               </Switch>
             </Content>
@@ -108,6 +133,15 @@ class BaseSidebar extends React.Component {
       </Fragment>
     )
   }
+  handleToTarget(params){
+    this.props.history.push(params)
+  }
+
+getKey(){
+  const {pathname}=this.props.location
+  // console.log(pathname)
+return [pathname]
+}
 
   handleMenuLink(path) {
     console.log(this.props)
@@ -125,7 +159,7 @@ class BaseSidebar extends React.Component {
 export default connect(
 
   (state, ownProps) => {
-    console.log(state.collapsed)
+    // console.log(state.collapsed)
     return {
       name: state.footerName
     }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 
 import { connect } from 'react-redux'
 
@@ -56,7 +56,7 @@ class Login extends React.Component{
     const { getFieldDecorator } = this.props.form;
     const {loading} = this.state
     return (
-      <div id="myDiv">
+      <div className="myWrap">
       <div className="login_page">
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
@@ -107,6 +107,8 @@ class Login extends React.Component{
         </Form.Item>
       </Form>
       </div>
+      <canvas id="canvas"></canvas>
+
       </div>
     );
   }
@@ -117,7 +119,9 @@ class Login extends React.Component{
   }
 
   componentDidMount(){
+    this.forceUpdate();
     window.onload = function() {
+      let times
       //配置
       var config = {
           vx: 4,	//小球x轴速度,正为右，负为左
@@ -129,12 +133,15 @@ class Login extends React.Component{
           stroke: "130,255,255", 		//线条颜色
           dist: 6000, 	//点吸附距离
           e_dist: 20000, 	//鼠标吸附加速距离
-          max_conn: 10 	//点到点最大连接数
+          max_conn: 10, 	//点到点最大连接数
+          times: new Date().getTime()
+
       }
 
       //调用
       CanvasParticle(config);
   }
+  
   }
 
 }
